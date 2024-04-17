@@ -1,0 +1,98 @@
+SETLOG:
+
+> swipl
+
+consult('setlog.pl').
+
+setlog.
+
+type_check.
+
+consult('courseMgmt.pl').
+
+sim1.
+
+sim2.
+
+vcg('courseMgmt.pl').
+
+consult('courseMgmt-vc.pl').
+
+check_vcs_courseMgmt.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Z-EVES:
+
+> z-eves
+
+read "zeves.tex";
+
+try CourseManagementInv \land EnrollStudent \implies CourseManagementInv';
+
+split EnrollStudentNewCourseOk;
+
+cases;
+
+reduce;
+
+equality substitute enrolledStudents';
+
+reduce;
+
+next;
+
+split EnrollStudentOldCourseOk;
+
+cases;
+
+reduce;
+
+equality substitute enrolledStudents';
+
+reduce;
+
+next;
+
+split CourseNotReady;
+
+cases;
+
+reduce;
+
+next;
+
+reduce;
+
+next;
+
+---------------------------------------------------------------------------------------------------------------------------------
+FASTEST:
+
+> java -jar fastest.jar
+
+loadspec fastest.tex
+
+selop EnrollStudent
+
+genalltt
+
+addtactic EnrollStudent_DNF_1 SP \oplus enrolledStudents \oplus \{course? \mapsto (enrolledStudents(course?) \cup \{student?\})\}
+
+addtactic EnrollStudent_DNF_2 SP \cup enrolledStudents \cup \{course? \mapsto \{student?\}\}
+
+addtactic EnrollStudent_DNF_3 SP \notin course? \notin \dom assignedProfessors
+
+addtactic EnrollStudent_DNF_4 SP \in student? \in enrolledStudents~course?
+
+genalltt
+
+showtt -o arboltt.tex
+
+showsch -tcl -o esquemastcl.tex
+
+genalltca   
+
+showtt -o arboltca.tex
+
+showsch -tca -o esquemastca.tex

@@ -1,0 +1,126 @@
+\begin{zed}
+    [STUDENT, PROFESSOR, COURSE]
+\end{zed}
+
+\begin{schema}{CourseManagementSystem}
+    enrolledStudents : COURSE \pfun \power STUDENT \\
+    assignedProfessors : COURSE \pfun \power PROFESSOR
+\end{schema}
+
+\begin{schema}{CourseManagementInit}
+    CourseManagementSystem
+    \where 
+    enrolledStudents = \emptyset \\
+    assignedProfessors = \emptyset
+\end{schema}
+
+\begin{schema}{CourseManagementInv}
+    CourseManagementSystem
+    \where
+    \dom(enrolledStudents) \subseteq \dom(assignedProfessors) 
+\end{schema}
+
+\begin{schema}{EnrollStudentOldCourseOk}
+    \Delta CourseManagementSystem \\
+    student?: STUDENT \\
+    course?: COURSE
+    \where
+    course? \in \dom(assignedProfessors) \\
+    course? \in \dom(enrolledStudents) \\
+    student? \notin enrolledStudents(course?) \\
+    enrolledStudents' = enrolledStudents \oplus \{course? \mapsto (enrolledStudents(course?) \cup \{student?\})\} \\
+    assignedProfessors' = assignedProfessors
+\end{schema}
+
+\begin{schema}{StudentAlreadyInCourse}
+\Xi CourseManagementSystem \\
+student?: STUDENT \\
+course?: COURSE
+\where
+    course? \in \dom(assignedProfessors) \\
+    course? \in \dom(enrolledStudents) \\
+    student? \in enrolledStudents(course?)
+\end{schema}
+
+\begin{schema}{EnrollStudentNewCourseOk}
+    \Delta CourseManagementSystem \\
+    student?: STUDENT \\
+    course?: COURSE
+    \where
+    course? \in \dom(assignedProfessors) \\
+    course? \notin \dom(enrolledStudents) \\
+    enrolledStudents' = enrolledStudents \cup \{course? \mapsto \{student?\}\} \\
+    assignedProfessors' = assignedProfessors
+\end{schema}
+
+\begin{schema}{CourseNotReady}
+\Xi CourseManagementSystem \\
+course?: COURSE
+\where
+    course? \notin \dom(assignedProfessors)
+\end{schema}
+
+\begin{zed}
+    EnrollStudent == EnrollStudentOldCourseOk \lor EnrollStudentNewCourseOk \lor CourseNotReady \lor StudentAlreadyInCourse
+\end{zed}
+
+\begin{schema}{AssignProfessorsOk}
+    \Delta CourseManagementSystem \\
+    professors?: \power PROFESSOR \\
+    course?: COURSE
+    \where
+    course? \notin \dom(assignedProfessors) \\
+    assignedProfessors' = assignedProfessors \cup \{course? \mapsto professors?\} \\
+    enrolledStudents' = enrolledStudents
+\end{schema}
+
+\begin{schema}{CourseAlreadyAssigned}
+    \Xi CourseManagementSystem \\
+    professors?: \power PROFESSOR \\
+    course?: COURSE
+    \where
+    course? \in \dom(assignedProfessors)
+\end{schema}
+
+\begin{zed}
+    AssignProfessors == AssignProfessorsOk \lor CourseAlreadyAssigned
+\end{zed}
+
+\begin{schema}{ShowCourseInfoWithStudentsOk}
+    \Xi CourseManagementSystem \\
+    course?: COURSE \\
+    enrolledStudents!: \power STUDENT \\
+    assignedProfessors!: \power PROFESSOR
+    \where
+    course? \in \dom(assignedProfessors) \\
+    course? \in \dom(enrolledStudents) \\
+    enrolledStudents! = enrolledStudents(course?) \\
+    assignedProfessors! = assignedProfessors(course?)
+\end{schema}
+
+\begin{schema}{ShowCourseInfoWithoutStudentsOk}
+    \Xi CourseManagementSystem \\
+    course?: COURSE \\
+    enrolledStudents!: \power STUDENT \\
+    assignedProfessors!: \power PROFESSOR
+    \where
+    course? \in \dom(assignedProfessors) \\
+    course? \notin \dom(enrolledStudents) \\
+    enrolledStudents! = \emptyset \\
+    assignedProfessors! = assignedProfessors(course?)
+\end{schema}
+
+\begin{schema}{NoInfoToShow}
+    \Xi CourseManagementSystem \\
+    course?: COURSE \\
+    enrolledStudents!: \power STUDENT \\
+    assignedProfessors!: \power PROFESSOR
+    \where
+    course? \notin \dom(assignedProfessors) \\
+    enrolledStudents! = \emptyset \\
+    assignedProfessors! = \emptyset
+\end{schema}
+
+\begin{zed}
+    ShowCourseInfo == ShowCourseInfoWithStudentsOk \lor ShowCourseInfoWithoutStudentsOk \lor NoInfoToShow
+\end{zed}

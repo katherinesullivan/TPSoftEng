@@ -1,0 +1,89 @@
+\documentclass{article}
+\usepackage{czt}
+\newenvironment{machine}[1]{
+\begin{tabular}{@{\qquad}l}\textbf{\kern-1em machine}\ #1\\ }{
+\\ \textbf{\kern-1em end} \end{tabular} }
+\begin{document}
+
+
+\begin{schema}{EnrollStudent\_ SP\_ 4\_ TCASE}\\
+ EnrollStudent\_ SP\_ 4 
+\where
+ assignedProfessors = \{ ( cOURSE1 \mapsto \{ pROFESSOR2 \} ) \} \\
+ course? = cOURSE1 \\
+ enrolledStudents = \{ ( cOURSE1 \mapsto \emptyset ) \} \\
+ student? = sTUDENT3
+\end{schema}
+
+
+\begin{schema}{EnrollStudent\_ SP\_ 5\_ TCASE}\\
+ EnrollStudent\_ SP\_ 5 
+\where
+ assignedProfessors = \{ ( cOURSE1 \mapsto \{ pROFESSOR3 \} ) \} \\
+ course? = cOURSE1 \\
+ enrolledStudents = \{ ( cOURSE1 \mapsto \emptyset ) , ( cOURSE2 \mapsto \{ sTUDENT1 , sTUDENT2 \} ) \} \\
+ student? = sTUDENT5
+\end{schema}
+
+
+\begin{schema}{EnrollStudent\_ SP\_ 10\_ TCASE}\\
+ EnrollStudent\_ SP\_ 10 
+\where
+ assignedProfessors = \{ ( cOURSE1 \mapsto \{ pROFESSOR2 \} ) \} \\
+ course? = cOURSE1 \\
+ enrolledStudents =~\emptyset \\
+ student? = sTUDENT3
+\end{schema}
+
+
+\begin{schema}{EnrollStudent\_ SP\_ 12\_ TCASE}\\
+ EnrollStudent\_ SP\_ 12 
+\where
+ assignedProfessors = \{ ( cOURSE1 \mapsto \{ pROFESSOR2 \} ) \} \\
+ course? = cOURSE1 \\
+ enrolledStudents = \{ ( cOURSE2 \mapsto \{ sTUDENT1 \} ) \} \\
+ student? = sTUDENT3
+\end{schema}
+
+
+\begin{schema}{EnrollStudent\_ SP\_ 17\_ TCASE}\\
+ EnrollStudent\_ SP\_ 17 
+\where
+ assignedProfessors =~\emptyset \\
+ course? = cOURSE2 \\
+ enrolledStudents =~\emptyset \\
+ student? = sTUDENT1
+\end{schema}
+
+
+\begin{schema}{EnrollStudent\_ SP\_ 18\_ TCASE}\\
+ EnrollStudent\_ SP\_ 18 
+\where
+ assignedProfessors = \{ ( cOURSE2 \mapsto \{ pROFESSOR1 \} ) \} \\
+ course? = cOURSE1 \\
+ enrolledStudents =~\emptyset \\
+ student? = sTUDENT2
+\end{schema}
+
+
+\begin{schema}{EnrollStudent\_ SP\_ 19\_ TCASE}\\
+ EnrollStudent\_ SP\_ 19 
+\where
+ assignedProfessors = \{ ( cOURSE1 \mapsto \{ pROFESSOR1 , pROFESSOR2 \} ) \} \\
+ course? = cOURSE1 \\
+ enrolledStudents = \{ ( cOURSE1 \mapsto \{ sTUDENT2 \} ) \} \\
+ student? = sTUDENT2
+\end{schema}
+
+
+\begin{schema}{EnrollStudent\_ SP\_ 20\_ TCASE}\\
+ EnrollStudent\_ SP\_ 20 
+\where
+ assignedProfessors = \{ ( cOURSE1 \mapsto \{ pROFESSOR2 \} ) \} \\
+ course? = cOURSE1 \\
+ enrolledStudents = \{ ( cOURSE1 \mapsto \{ sTUDENT1 , sTUDENT2 \} ) \} \\
+ student? = sTUDENT1
+\end{schema}
+
+\end{document}
+
